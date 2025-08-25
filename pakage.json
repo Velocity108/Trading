@@ -1,0 +1,18 @@
+{
+  "name": "trading-app",
+  "version": "1.0.0",
+  "description": "A simple trading project to learn about web services and real-time data.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "trading",
+    "real-time",
+    "javascript",
+    "webservice"
+  ],
+  "author": "Velocity108",
+  "license": "ISC",
+  "dependencies": {}
+}
