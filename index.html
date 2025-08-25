@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velocity Trading Interface</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #fff;
+    }
+
+    header {
+      padding: 10px 20px;
+      background-color: #1f1f1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #00ffab;
+    }
+
+    #chart {
+      width: 100%;
+      height: 500px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .buy { background-color: #00ff00; }
+    .sell { background-color: #ff4c4c; }
+
+    #price {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Velocity Trading</h1>
+    <div id="currentSymbol">BTC/USDT</div>
+  </header>
+
+  <div id="chart"></div>
+
+  <div class="controls">
+    <button class="buy" onclick="trade('buy')">Buy</button>
+    <button class="sell" onclick="trade('sell')">Sell</button>
+  </div>
+
+  <div id="price">Current Price: $0</div>
+
+  <!-- TradingView Lightweight Charts -->
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <script>
+    // Create chart
+    const chart = LightweightCharts.createChart(document.getElementById('chart'), {
+      width: window.innerWidth,
+      height: 500,
+      layout: {
+        backgroundColor: '#121212',
+        textColor: '#ffffff',
+      },
+      grid: {
+        vertLines: { color: '#2b2b2b' },
+        horzLines: { color: '#2b2b2b' },
+      },
+      crosshair: {
+        mode: LightweightCharts.CrosshairMode.Normal,
+      },
+      rightPriceScale: {
+        borderColor: '#555',
+      },
+      timeScale: {
+        borderColor: '#555',
+      },
+    });
+
+    const candleSeries = chart.addCandlestickSeries({
+      upColor: '#00ff00',
+      downColor: '#ff4c4c',
+      borderDownColor: '#ff4c4c',
+      borderUpColor: '#00ff00',
+      wickDownColor: '#ff4c4c',
+      wickUpColor: '#00ff00',
+    });
+
+    // Sample data
+    const data = [
+      { time: '2025-08-25', open: 50000, high: 51000, low: 49500, close: 50500 },
+      { time: '2025-08-26', open: 50500, high: 51500, low: 50000, close: 51000 },
+      { time: '2025-08-27', open: 51000, high: 52000, low: 50500, close: 51500 },
+    ];
+
+    candleSeries.setData(data);
+
+    // Update chart size on window resize
+    window.addEventListener('resize', () => {
+      chart.applyOptions({ width: window.innerWidth });
+    });
+
+    // Trade button simulation
+    function trade(type) {
+      alert(`${type.toUpperCase()} order clicked for ${document.getElementById('currentSymbol').textContent}`);
+    }
+
+    // Mock price updating
+    let price = 50500;
+    setInterval(() => {
+      const change = (Math.random() - 0.5) * 100;
+      price = Math.round((price + change) * 100) / 100;
+      document.getElementById('price').textContent = `Current Price: $${price}`;
+    }, 1000);
+  </script>
+</body>
+</html>
